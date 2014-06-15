@@ -323,6 +323,24 @@ proc/checkhtml(var/t)
 		else t += ascii2text(a)
 	return t
 
+/proc/lowerrustext(text as text)
+	var/t = ""
+	for(var/i = 1, i <= length(text), i++)
+		var/a = text2ascii(text, i)
+		if (a > 191 && a < 224)
+			t += ascii2text(a + 32)
+		else if (a == 168)
+			t += ascii2text(184)
+		else t += ascii2text(a)
+	return t
+
+proc/intonation(text)
+	if (copytext(text,-3) == "!!!")
+		text = upperrustext(text)
+	if (copytext(text,-1) == "!")
+		text = "<b>[text]</b>"
+	return text
+
 
 //Centers text by adding spaces to either side of the string.
 /proc/dd_centertext(message, length)
@@ -426,13 +444,13 @@ proc/slurring(phrase) // using cp1251!
 	while(counter>=1)
 		newletter=copytext(phrase,(leng-counter)+1,(leng-counter)+2)
 		if(prob(33))
-			if(lowertext(newletter)=="o")	newletter="u"
-			if(lowertext(newletter)=="s")	newletter="ch"
-			if(lowertext(newletter)=="a")	newletter="ah"
-			if(lowertext(newletter)=="c")	newletter="k"
+			if(lowertext(newletter)=="е")	newletter="ё"
+			if(lowertext(newletter)=="и")	newletter="й"
+			if(lowertext(newletter)=="а")	newletter="ах"
+			if(lowertext(newletter)=="ы")	newletter="i"
 		switch(rand(1,15))
-			if(1,3,5,8)	newletter="[lowertext(newletter)]"
-			if(2,4,6,15)	newletter="[uppertext(newletter)]"
+			if(1,3,5,8)	newletter="[lowerrustext(newletter)]"
+			if(2,4,6,15)	newletter="[upperrustext(newletter)]"
 			if(7)	newletter+="'"
 			if(9,10)	newletter="<b>[newletter]</b>"
 			if(11,12)	newletter="<big>[newletter]</big>"
@@ -458,9 +476,9 @@ proc/NewStutter(phrase,stunned)
 		var/index = split_phrase.Find(word) //Find the word in the split phrase so we can replace it.
 
 		//Search for dipthongs (two letters that make one sound.)
-		var/first_sound = copytext(word,1,3)
+		var/first_sound = copytext(word,1,2)
 		var/first_letter = copytext(word,1,2)
-		if(lowertext(first_sound) in list("ch","th","sh"))
+		if(lowerrustext(first_sound) in list("ч","ш","щ","с"))
 			first_letter = first_sound
 
 		//Repeat the first letter to create a stutter.

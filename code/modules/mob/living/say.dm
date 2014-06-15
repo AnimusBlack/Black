@@ -49,6 +49,23 @@ var/list/department_radio_keys = list(
 	  ":е" = "Syndicate",	"#е" = "Syndicate",		".е" = "Syndicate",
 	  ":й" = "Supply",		"#й" = "Supply",		".й" = "Supply",
 	  ":п" = "changeling",	"#п" = "changeling",	".п" = "changeling"
+
+	  //Давно не хватало. К тому же, теперь это полностью совместимо с моим парсером. - Rel
+	  ":К" = "right hand",	"#К" = "right hand",	".К" = "right hand",
+	  ":Д" = "left hand",	"#Д" = "left hand",		".Д" = "left hand",
+	  ":Ш" = "intercom",	"#Ш" = "intercom",		".Ш" = "intercom",
+	  ":Р" = "department",	"#Р" = "department",	".Р" = "department",
+	  ":С" = "Command",		"#С" = "Command",		".С" = "Command",
+	  ":Т" = "Science",		"#Т" = "Science",		".Т" = "Science",
+	  ":Ь" = "Medical",		"#Ь" = "Medical",		".Ь" = "Medical",
+	  ":У" = "Engineering",	"#У" = "Engineering",	".У" = "Engineering",
+	  ":Ы" = "Security",	"#Ы" = "Security",		".Ы" = "Security",
+	  ":Ц" = "whisper",		"#Ц" = "whisper",		".Ц" = "whisper",
+	  ":И" = "binary",		"#И" = "binary",		".И" = "binary",
+	  ":Ф" = "alientalk",	"#Ф" = "alientalk",		".Ф" = "alientalk",
+	  ":Е" = "Syndicate",	"#Е" = "Syndicate",		".Е" = "Syndicate",
+	  ":Й" = "Supply",		"#Й" = "Supply",		".Й" = "Supply",
+	  ":П" = "changeling",	"#П" = "changeling",	".П" = "changeling"
 )
 
 /mob/living/proc/binarycheck()
@@ -167,6 +184,8 @@ var/list/department_radio_keys = list(
 
 	if (!message)
 		return
+
+	intonation(message)
 
 	if(slurring)
 		message = slurring(message)

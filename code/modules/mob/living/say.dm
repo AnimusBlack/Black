@@ -48,7 +48,7 @@ var/list/department_radio_keys = list(
 	  ":ф" = "alientalk",	"#ф" = "alientalk",		".ф" = "alientalk",
 	  ":е" = "Syndicate",	"#е" = "Syndicate",		".е" = "Syndicate",
 	  ":й" = "Supply",		"#й" = "Supply",		".й" = "Supply",
-	  ":п" = "changeling",	"#п" = "changeling",	".п" = "changeling"
+	  ":п" = "changeling",	"#п" = "changeling",	".п" = "changeling",
 
 	  //Давно не хватало. К тому же, теперь это полностью совместимо с моим парсером. - Rel
 	  ":К" = "right hand",	"#К" = "right hand",	".К" = "right hand",

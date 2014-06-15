@@ -837,10 +837,7 @@
 	src.Weaken(12)
 	flick("e_flash", src.flash)
 	new /obj/item/clothing/head/butt(src.loc)
-	if (prob(10))
-		world << sound('superfart.ogg')
-	else
-		playsound(src.loc, 'superfart.ogg', 80, 0)
+	world << sound('superfart.ogg')
 	loc << "<B>[src]</B>'s butt explodes!"
 	src.Weaken(12)
 	var/datum/organ/external/affecting = src.get_organ("groin")

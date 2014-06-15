@@ -294,3 +294,6 @@
 
 /obj/item/weapon/gun/dartgun/vox/raider
 	starting_chems = list("space_drugs","stoxin","impedrezene")
+
+/obj/item/weapon/gun/dartgun/vox/raider/robust
+	starting_chems = list("impedrezene","stoxin","chloralhydrate")

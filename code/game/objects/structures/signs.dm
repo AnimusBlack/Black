@@ -185,11 +185,7 @@
 	desc = "Xenobiology"
 	icon_state = "xenobio2"
 
-/*D2 SIGNS*/
-/*/obj/structure/sign/
-	name = ""
-	desc = "A warning sign which reads ''"
-	icon_state = ""*/
+/*####################D2 SIGNS####################*/
 /*obj/structure/sign/noshitlers
 	name = "No shitlers!"
 	desc = "A warning sign which reads 'No shitlers allowed!'"
@@ -221,90 +217,130 @@
 	desc = "Laundromat"
 	icon_state = "laundromat"
 
-/*####################SIGNS OF DEPATRTAMENTS####################*/
-/*/obj/structure/sign/departments/
-	name = ""
+
+/*####################DECK SIGNS####################*/
+/obj/structure/sign/deck/bridge
+	name = "Bridge"
 	desc = ""
-	icon_state = ""*/
+
+	bridge0
+		icon_state = "bridge0"
+	bridge1
+		icon_state = "bridge1"
+	bridge2
+		icon_state = "bridge2"
+
+/obj/structure/sign/deck/sub
+	name = "Sub Deck"
+	desc = ""
+
+	sub0
+		icon_state = "sub0"
+	sub1
+		icon_state = "sub1"
+
+/obj/structure/sign/deck/main
+	name = "Main Deck"
+	desc = ""
+
+	main0
+		icon_state = "main0"
+	main1
+		icon_state = "main1"
+
+/obj/structure/sign/deck/engine
+	name = "Engine Deck"
+	desc = ""
+
+	enge0
+		icon_state = "enge0"
+	enge1
+		icon_state = "enge1"
+	enge2
+		icon_state = "enge2"
+	enge3
+		icon_state = "enge3"
+
+/*####################SIGNS OF DEPATRTAMENTS####################*/
 
 /obj/structure/sign/departments/library
 	desc = "Library"
 	name = "Library"
 	icon_state = "library"
 
-/obj/structure/sign/departments/lounge
+/obj/structure/sign/departments/old/lounge
 	desc = "The Lounge"
 	name = "The Lounge"
-	icon_state = "lounge"
+	icon_state = "lounge_old"
 
 /obj/structure/sign/departments/Storage
 	desc = "Storage"
 	name = "Storage"
 	icon_state = "Storage"
 
-/obj/structure/sign/departments/AI
+/obj/structure/sign/departments/old/AI
 	desc = "AI"
 	name = "AI"
-	icon_state = "AI"
+	icon_state = "AI_old"
 
-/obj/structure/sign/departments/kitchen
+/obj/structure/sign/departments/old/kitchen
 	desc = "Kitchen"
 	name = "Kitchen"
-	icon_state = "kitchen"
+	icon_state = "kitchen_old"
 
-/obj/structure/sign/departments/bar
+/obj/structure/sign/departments/old/bar
 	desc = "Bar"
 	name = "Bar"
-	icon_state = "bar"
+	icon_state = "bar_old"
 
-/obj/structure/sign/departments/medbay
+/obj/structure/sign/departments/old/medbay
 	desc = "Medbay"
 	name = "Medbay"
-	icon_state = "medbay"
+	icon_state = "medbay_old"
 
 /obj/structure/sign/departments/hydroponics
 	desc = "Hydroponics"
 	name = "Hydroponics"
 	icon_state = "hydroponics"
 
-/obj/structure/sign/departments/engineering
+/obj/structure/sign/departments/old/engineering
 	desc = "Engineering"
 	name = "Engineering"
-	icon_state = "engineering"
+	icon_state = "engineering_old"
 
-/obj/structure/sign/departments/bridge
+/obj/structure/sign/departments/old/bridge
 	desc = "Bridge"
 	name = "Bridge"
-	icon_state = "bridge"
+	icon_state = "bridge_old"
 
 /obj/structure/sign/departments/brig
 	desc = "Brig"
 	name = "Brig"
 	icon_state = "brig"
 
-/obj/structure/sign/departments/atmos
+/obj/structure/sign/departments/old/atmos
 	desc = "Atmospherics"
 	name = "Atmospherics"
-	icon_state = "atmos"
+	icon_state = "atmos_old"
 
 /obj/structure/sign/departments/crew
 	desc = "Dormitory"
 	name = "Dormitory"
 	icon_state = "crew"
-/obj/structure/sign/departments/tele
+/obj/structure/sign/departments/old/tele
 	desc = "Teleporter"
 	name = "Teleporter"
-	icon_state = "Teleporter"
+	icon_state = "Teleporter_old"
 
 /obj/structure/sign/departments/qm
 	desc = "Quatermaster"
 	name = "Quatermaster"
 	icon_state = "Quatermaster"
 
-/obj/structure/sign/departments/gas
+/obj/structure/sign/departments/old/gas
 	desc = "Gas Storage"
 	name = "Gas Storage"
-	icon_state = "Gas Storage"
+	icon_state = "Gas Storage_old"
 
 /obj/structure/sign/departments/chemist
 	name = "Chemist"
@@ -340,3 +376,53 @@
 	name = "Chief Engineer"
 	desc = "Chef Engineer's office"
 	icon_state = "chief"
+
+/obj/structure/sign/departments/old/virology
+	name = "Virology"
+	desc = "Virology Lab"
+	icon_state = "Virology_old"
+
+/obj/structure/sign/departments/old/bank
+	name = "Bank"
+	desc = "Bank"
+	icon_state = "Bank_old"
+
+/obj/structure/sign/departments/old/brig
+	name = "Brig"
+	desc = "Brig"
+	icon_state = "Brig_old"
+
+/obj/structure/sign/departments/old/chemist
+	name = "Chemist"
+	desc = "Chem. Lab"
+	icon_state = "Chemist_old"
+
+/obj/structure/sign/departments/old/dorm
+	name = "Dormitories"
+	desc = "Dormitories"
+	icon_state = "Crew_old"
+
+/obj/structure/sign/departments/old/cryo
+	name = "Cryogenics"
+	desc = "Cryogenics"
+	icon_state = "Cryogenics_old"
+
+/obj/structure/sign/departments/old/robotics
+	name = "Mech Bay"
+	desc = "Mech Bay"
+	icon_state = "Robotics_old"
+
+/obj/structure/sign/departments/old/store
+	name = "Store"
+	desc = "Store"
+	icon_state = "Storage_old"
+
+/obj/structure/sign/departments/cargo
+	name = "Cargobay"
+	desc = "Cargobay"
+	icon_state = "Cargobay"
+
+/obj/structure/sign/departments/bank
+	name = "Bank"
+	desc = "Bank"
+	icon_state = "Bank"

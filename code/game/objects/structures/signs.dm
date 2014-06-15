@@ -217,6 +217,18 @@
 	desc = "Laundromat"
 	icon_state = "laundromat"
 
+/obj/structure/sign/double/church
+	name = "Jesus Chatline"
+	icon = 'icons/obj/barsigns.dmi'
+	desc = ""
+	icon_state = "church"
+
+/obj/structure/sign/double/bully
+	name = "No cyberbullying!"
+	icon = 'icons/obj/barsigns.dmi'
+	desc = ""
+	icon_state = "bully"
+
 
 /*####################DECK SIGNS####################*/
 /obj/structure/sign/deck/bridge
@@ -426,3 +438,8 @@
 	name = "Bank"
 	desc = "Bank"
 	icon_state = "Bank"
+
+/obj/structure/sign/departments/emergency
+	name = "E.R"
+	desc = "Emergency Response"
+	icon_state = "emergency"

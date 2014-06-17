@@ -1766,7 +1766,7 @@ datum
 			description = "A powerful hallucinogen. Not a thing to be messed with."
 			reagent_state = LIQUID
 			reagent_color = "#B31008" // rgb: 139, 166, 233
-			custom_metabolism = 0.05
+			custom_metabolism = 0.1
 
 			on_mob_life(var/mob/living/M)
 				if(!M) M = holder.my_atom

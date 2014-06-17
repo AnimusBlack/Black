@@ -36,7 +36,7 @@
 	siemens_coefficient = 0.8
 
 /obj/item/clothing/head/wizard/cap
-	name = "Gentlemans Cap"
+	name = "Gentleman's Cap"
 	desc = "A checkered gray flat cap woven together with the rarest of threads."
 	icon_state = "gentcap"
 	siemens_coefficient = 0.8
@@ -86,7 +86,7 @@
 	item_state = "psyamp"
 
 /obj/item/clothing/suit/wizrobe/gentlecoat
-	name = "Gentlemans Coat"
+	name = "Gentleman's Coat"
 	desc = "A heavy threaded twead gray jacket. For a different sort of Gentleman."
 	icon_state = "gentlecoat"
 	item_state = "gentlecoat"

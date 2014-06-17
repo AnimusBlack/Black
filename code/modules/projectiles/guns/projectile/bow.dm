@@ -1,5 +1,4 @@
 /obj/item/weapon/arrow
-
 	name = "bolt"
 	desc = "It's got a tip for you - get the point?"
 	icon = 'icons/obj/weapons.dmi'
@@ -10,11 +9,20 @@
 	w_class = 3.0
 	sharp = 1
 
+	throw_impact(atom/hit_atom)
+		..()
+		if(throwforce > initial(throwforce))
+			var/tension = round(throwforce / initial(throwforce))
+			if(ismob(hit_atom))
+				var/mob/living/M = hit_atom
+				M.Weaken(2*tension)
+		spawn(1)
+			throwforce = initial(throwforce)
+
 /obj/item/weapon/arrow/proc/removed() //Helper for metal rods falling apart.
 	return
 
 /obj/item/weapon/arrow/quill
-
 	name = "vox quill"
 	desc = "A wickedly barbed quill from some bizarre animal."
 	icon = 'icons/obj/weapons.dmi'
@@ -23,7 +31,6 @@
 	throwforce = 5
 
 /obj/item/weapon/arrow/rod
-
 	name = "metal rod"
 	desc = "Don't cry for me, Orithena."
 	icon_state = "metal-rod"
@@ -36,7 +43,6 @@
 		src.Del()
 
 /obj/item/weapon/crossbow
-
 	name = "powered crossbow"
 	desc = "A 2557AD twist on an old classic. Pick up that can."
 	icon = 'icons/obj/weapons.dmi'
@@ -123,7 +129,6 @@
 		draw(user)
 
 /obj/item/weapon/crossbow/proc/draw(var/mob/user as mob)
-
 	if(!arrow)
 		user << "You don't have anything nocked to [src]."
 		return
@@ -149,11 +154,10 @@
 		tension = max_tension
 		usr << "[src] clunks as you draw the string to its maximum tension!"
 	else
-		user.visible_message("[usr] draws back the string of [src]!","You continue drawing back the string of [src]!")
+		usr << "You continue drawing back the string of [src]..."
 		spawn(25) increase_tension(user)
 
 /obj/item/weapon/crossbow/afterattack(atom/target as mob|obj|turf|area, mob/living/user as mob|obj, flag, params)
-
 	if (istype(target, /obj/item/weapon/storage/backpack ))
 		src.dropped()
 		return
@@ -178,7 +182,6 @@
 		spawn(0) Fire(target,user,params)
 
 /obj/item/weapon/crossbow/proc/Fire(atom/target as mob|obj|turf|area, mob/living/user as mob|obj, params, reflex = 0)
-
 	add_fingerprint(user)
 
 	var/turf/curloc = get_turf(user)
@@ -190,6 +193,7 @@
 
 	var/obj/item/weapon/arrow/A = arrow
 	A.loc = get_turf(user)
+	A.throwforce *= tension
 	A.throw_at(target,10,tension*release_speed)
 	arrow = null
 	tension = 0

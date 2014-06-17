@@ -27,7 +27,7 @@
 	var/list/beakers = list() //All containers inside the gun.
 	var/list/mixing = list() //Containers being used for mixing.
 	var/obj/item/weapon/dart_cartridge/cartridge = null //Container of darts.
-	var/max_beakers = 3
+	var/max_beakers = 6
 	var/dart_reagent_amount = 15
 	var/container_type = /obj/item/weapon/reagent_containers/glass/beaker/vial
 	var/list/starting_chems = null
@@ -47,13 +47,13 @@
 	return 1
 
 /obj/item/weapon/gun/dartgun/New()
-
 	..()
 	if(starting_chems)
 		for(var/chem in starting_chems)
 			var/obj/item/weapon/reagent_containers/glass/beaker/vial/B = new(src)
 			B.reagents.add_reagent(chem, 50)
 			beakers += B
+
 	cartridge = new /obj/item/weapon/dart_cartridge(src)
 	update_icon()
 
@@ -293,7 +293,4 @@
 	starting_chems = list("kelotane","bicaridine","anti_toxin")
 
 /obj/item/weapon/gun/dartgun/vox/raider
-	starting_chems = list("space_drugs","stoxin","impedrezene")
-
-/obj/item/weapon/gun/dartgun/vox/raider/robust
-	starting_chems = list("impedrezene","stoxin","chloralhydrate")
+	starting_chems = list("mindbreaker","stoxin","cryptobiolin")

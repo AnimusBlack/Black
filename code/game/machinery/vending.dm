@@ -654,8 +654,8 @@
 					/obj/item/weapon/reagent_containers/food/drinks/bottle/kahlua = 5,/obj/item/weapon/reagent_containers/food/drinks/beer = 6,
 					/obj/item/weapon/reagent_containers/food/drinks/ale = 6,/obj/item/weapon/reagent_containers/food/drinks/bottle/orangejuice = 4,
 					/obj/item/weapon/reagent_containers/food/drinks/bottle/tomatojuice = 4,/obj/item/weapon/reagent_containers/food/drinks/bottle/limejuice = 4,
-					/obj/item/weapon/reagent_containers/food/drinks/bottle/cream = 4,/obj/item/weapon/reagent_containers/food/drinks/tonic = 8,
-					/obj/item/weapon/reagent_containers/food/drinks/cola = 8, /obj/item/weapon/reagent_containers/food/drinks/sodawater = 15,
+					/obj/item/weapon/reagent_containers/food/drinks/bottle/cream = 4,/obj/item/weapon/reagent_containers/food/drinks/soda/tonic = 8,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/cola = 8, /obj/item/weapon/reagent_containers/food/drinks/soda/sodawater = 15,
 					/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 30,/obj/item/weapon/reagent_containers/food/drinks/ice = 9)
 	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/tea = 10)
 	vend_delay = 15
@@ -706,13 +706,13 @@
 	icon_state = "soda"
 	product_slogans = "Robust Softdrinks: More robust than a toolbox to the head!"
 	product_ads = "Refreshing!;Hope you're thirsty!;Over 1 million drinks sold!;Thirsty? Why not cola?;Please, have a drink!;Drink up!;The best drinks in space."
-	products = list(/obj/item/weapon/reagent_containers/food/drinks/cola = 10,/obj/item/weapon/reagent_containers/food/drinks/space_mountain_wind = 10,
-					/obj/item/weapon/reagent_containers/food/drinks/dr_gibb = 10,/obj/item/weapon/reagent_containers/food/drinks/starkist = 10,
-					/obj/item/weapon/reagent_containers/food/drinks/space_up = 10)
-	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/thirteenloko = 5)
-//	prices = list(/obj/item/weapon/reagent_containers/food/drinks/cola = 20,/obj/item/weapon/reagent_containers/food/drinks/space_mountain_wind = 20,
-//					/obj/item/weapon/reagent_containers/food/drinks/dr_gibb = 20,/obj/item/weapon/reagent_containers/food/drinks/starkist = 20,
-//					/obj/item/weapon/reagent_containers/food/drinks/space_up = 20)
+	products = list(/obj/item/weapon/reagent_containers/food/drinks/soda/cola = 10,/obj/item/weapon/reagent_containers/food/drinks/soda/space_mountain_wind = 10,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/dr_gibb = 10,/obj/item/weapon/reagent_containers/food/drinks/soda/starkist = 10,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/space_up = 10)
+	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/soda/thirteenloko = 5)
+//	prices = list(/obj/item/weapon/reagent_containers/food/drinks/soda/cola = 20,/obj/item/weapon/reagent_containers/food/drinks/soda/space_mountain_wind = 20,
+//					/obj/item/weapon/reagent_containers/food/drinks/soda/dr_gibb = 20,/obj/item/weapon/reagent_containers/food/drinks/soda/starkist = 20,
+//					/obj/item/weapon/reagent_containers/food/drinks/soda/space_up = 20)
 
 /obj/machinery/vending/spaceup
 	name = "Robust Softdrinks"
@@ -720,10 +720,10 @@
 	icon_state = "spaceup"
 	product_slogans = "Robust Softdrinks: More robust than a toolbox to the head!"
 	product_ads = "Refreshing!;Hope you're thirsty!;Over 1 million drinks sold!;Thirsty? Why not spaceup?;Please, have a drink!;Drink up!;The best drinks in space."
-	products = list(/obj/item/weapon/reagent_containers/food/drinks/cola = 10,/obj/item/weapon/reagent_containers/food/drinks/space_mountain_wind = 10,
-					/obj/item/weapon/reagent_containers/food/drinks/dr_gibb = 10,/obj/item/weapon/reagent_containers/food/drinks/starkist = 10,
-					/obj/item/weapon/reagent_containers/food/drinks/space_up = 10)
-	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/thirteenloko = 5)
+	products = list(/obj/item/weapon/reagent_containers/food/drinks/soda/cola = 10,/obj/item/weapon/reagent_containers/food/drinks/soda/space_mountain_wind = 10,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/dr_gibb = 10,/obj/item/weapon/reagent_containers/food/drinks/soda/starkist = 10,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/space_up = 10)
+	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/soda/thirteenloko = 5)
 
 /obj/machinery/vending/spacewind
 	name = "Robust Softdrinks"
@@ -731,10 +731,10 @@
 	icon_state = "spacewind"
 	product_slogans = "Robust Softdrinks: More robust than a toolbox to the head!"
 	product_ads = "Refreshing!;Hope you're thirsty!;Over 1 million drinks sold!;Thirsty? Why not spacewind?;Please, have a drink!;Drink up!;The best drinks in space."
-	products = list(/obj/item/weapon/reagent_containers/food/drinks/cola = 10,/obj/item/weapon/reagent_containers/food/drinks/space_mountain_wind = 10,
-					/obj/item/weapon/reagent_containers/food/drinks/dr_gibb = 10,/obj/item/weapon/reagent_containers/food/drinks/starkist = 10,
-					/obj/item/weapon/reagent_containers/food/drinks/space_up = 10)
-	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/thirteenloko = 5)
+	products = list(/obj/item/weapon/reagent_containers/food/drinks/soda/cola = 10,/obj/item/weapon/reagent_containers/food/drinks/soda/space_mountain_wind = 10,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/dr_gibb = 10,/obj/item/weapon/reagent_containers/food/drinks/soda/starkist = 10,
+					/obj/item/weapon/reagent_containers/food/drinks/soda/space_up = 10)
+	contraband = list(/obj/item/weapon/reagent_containers/food/drinks/soda/thirteenloko = 5)
 
 //This one's from bay12
 /obj/machinery/vending/cart

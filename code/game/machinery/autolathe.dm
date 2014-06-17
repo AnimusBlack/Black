@@ -255,11 +255,11 @@ var/global/list/autolathe_recipes_hidden = list( \
 					use_power(power)
 					icon_state = "autolathe"
 					flick("autolathe_n",src)
-					spawn(16)
+					spawn(6)
 						use_power(power)
-						spawn(16)
+						spawn(6)
 							use_power(power)
-							spawn(16)
+							spawn(6)
 								src.m_amount -= template.m_amt*multiplier
 								src.g_amount -= template.g_amt*multiplier
 								if(src.m_amount < 0)

@@ -80,7 +80,7 @@
 
 		//Broken limbs hurt too
 		var/broken = 0
-		if(E.status & ORGAN_BROKEN && !(E.status & ORGAN_SPLINTED) )
+		if((E.status & ORGAN_BROKEN) && !(E.status & ORGAN_SPLINTED))
 			broken = 1
 
 		//Moving around with fractured ribs won't do you any good
@@ -102,9 +102,9 @@
 				if (broken||malfunction)
 					u_equip(c_hand)
 
-				if(broken && prob(10))
+				if(broken && prob(25))
 					emote("me", 1, "screams in pain and drops what they were holding in their [E.display_name?"[E.display_name]":"[E]"]!")
-				if(malfunction && prob(10))
+				if(malfunction && prob(25))
 					emote("me", 1, "drops what they were holding, their [E.display_name?"[E.display_name]":"[E]"] malfunctioning!")
 					var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 					spark_system.set_up(5, 0, src)

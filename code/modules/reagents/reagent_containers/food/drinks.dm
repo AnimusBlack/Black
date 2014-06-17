@@ -242,7 +242,7 @@
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/cola
+/obj/item/weapon/reagent_containers/food/drinks/soda/cola
 	name = "Space Cola"
 	desc = "Cola. in space."
 	icon_state = "cola"
@@ -283,7 +283,7 @@
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/space_mountain_wind
+/obj/item/weapon/reagent_containers/food/drinks/soda/space_mountain_wind
 	name = "Space Mountain Wind"
 	desc = "Blows right through you like a space wind."
 	icon_state = "space_mountain_wind"
@@ -293,7 +293,7 @@
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/thirteenloko
+/obj/item/weapon/reagent_containers/food/drinks/soda/thirteenloko
 	name = "Thirteen Loko"
 	desc = "The CMO has advised crew members that consumption of Thirteen Loko may result in seizures, blindness, drunkeness, or even death. Please Drink Responsably."
 	icon_state = "thirteen_loko"
@@ -303,17 +303,18 @@
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/dr_gibb
+/obj/item/weapon/reagent_containers/food/drinks/soda/dr_gibb
 	name = "Dr. Gibb"
 	desc = "A delicious mixture of 42 different flavors."
 	icon_state = "dr_gibb"
 	New()
 		..()
-		reagents.add_reagent("dr_gibb", 30)
+		reagents.add_reagent("dr_gibb", 20)
+		reagents.add_reagent("tomatojuice", 10)
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/starkist
+/obj/item/weapon/reagent_containers/food/drinks/soda/starkist
 	name = "Star-kist"
 	desc = "The taste of a star in liquid form. And, a bit of tuna...?"
 	icon_state = "starkist"
@@ -324,7 +325,7 @@
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/space_up
+/obj/item/weapon/reagent_containers/food/drinks/soda/space_up
 	name = "Space-Up"
 	desc = "Tastes like a hull breach in your mouth."
 	icon_state = "space-up"
@@ -334,7 +335,7 @@
 		src.pixel_x = rand(-10.0, 10)
 		src.pixel_y = rand(-10.0, 10)
 
-/obj/item/weapon/reagent_containers/food/drinks/lemon_lime
+/obj/item/weapon/reagent_containers/food/drinks/soda/lemon_lime
 	name = "Lemon-Lime"
 	desc = "You wanted ORANGE. It gave you Lemon Lime."
 	icon_state = "lemon-lime"
@@ -361,7 +362,7 @@
 		else
 			icon_state = "water_cup_e"
 
-/obj/item/weapon/reagent_containers/food/drinks/tonic
+/obj/item/weapon/reagent_containers/food/drinks/soda/tonic
 	name = "T-Borg's Tonic Water"
 	desc = "Quinine tastes funny, but at least it'll keep that Space Malaria away."
 	icon_state = "tonic"
@@ -369,7 +370,7 @@
 		..()
 		reagents.add_reagent("tonic", 50)
 
-/obj/item/weapon/reagent_containers/food/drinks/sodawater
+/obj/item/weapon/reagent_containers/food/drinks/soda/sodawater
 	name = "Soda Water"
 	desc = "A can of soda water. Why not make a scotch and soda?"
 	icon_state = "sodawater"

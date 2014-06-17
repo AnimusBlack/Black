@@ -22,7 +22,7 @@
 	var/teleport_cooldown = 0
 	var/list/power_options = list(5, 10, 20, 25, 30, 40, 50, 80, 100, 150) // every index requires a bluespace crystal
 	var/teleporting = 0
-	var/starting_crystals = 3
+	var/starting_crystals = 4
 	var/list/crystals = list()
 
 /obj/machinery/computer/telescience/New()

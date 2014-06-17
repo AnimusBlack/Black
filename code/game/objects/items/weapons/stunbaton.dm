@@ -166,3 +166,94 @@
 	if(charges < 1)
 		status = 0
 		update_icon()
+
+//Makeshift stun baton. Replacement for stun gloves.
+/obj/item/weapon/melee/baton/cattleprod
+	name = "stunprod"
+	desc = "An improvised stun baton."
+	icon_state = "stunprod_nocell"
+	item_state = "prod"
+	force = 3
+	var/hitminus = 2500
+	var/obj/item/weapon/cell/prodcell = null
+	throwforce = 10
+	slot_flags = SLOT_BELT
+
+/obj/item/weapon/melee/baton/cattleprod/update_icon()
+	if(status)
+		icon_state = "stunprod_active"
+	else if(!prodcell)
+		icon_state = "stunprod_nocell"
+	else
+		icon_state = "stunprod"
+
+/obj/item/weapon/melee/baton/cattleprod/attack_self(mob/user as mob)
+	if(!prodcell)
+		charges = 0
+		status = 0
+		user << "<span class='warning'>\The [src] has no cell.</span>"
+	else
+		charges = prodcell.charge / 2500
+		if(charges > 0)
+			status = !status
+			user << "<span class='notice'>\The [src] is now [status ? "on" : "off"].</span>"
+			playsound(src.loc, "sparks", 75, 1, -1)
+			update_icon()
+			if(status && (CLUMSY in user.mutations) && prob(50))
+				user << "\red You grab the [src] on the wrong side."
+				user.Weaken(30)
+				charges--
+				if(charges < 1)
+					status = 0
+					update_icon()
+		else
+			status = 0
+			user << "<span class='warning'>\The [src] is out of charge.</span>"
+	add_fingerprint(user)
+
+/obj/item/weapon/melee/baton/cattleprod/attack()
+	..()
+	if(prodcell == null)
+		charges = 0
+		status = 0
+	else
+		if (status && prodcell.charge >= 2500)
+			charges = prodcell.charge / 2500
+			prodcell.charge = prodcell.charge - hitminus
+/*		else if (!status && prodcell.charge >= 2500)
+			charges = 2
+			prodcell.charge = prodcell.charge - hitminus
+			update_icon()*/
+		else if (status && prodcell.charge < 2500)
+			status = 0
+			charges = 0
+			usr << "<span class='warning'>\The [src] is out of charge.</span>"
+			update_icon()
+		else if (!status && prodcell.charge < 2500)
+			charges = 0
+			status = 0
+			usr << "<span class='warning'>\The [src] is out of charge.</span>"
+			update_icon()
+
+/obj/item/weapon/melee/baton/cattleprod/attackby(obj/item/weapon/W, mob/user)
+	if(istype(W, /obj/item/weapon/cell))
+		if(!prodcell)
+			user.drop_item()
+			W.loc = src
+			prodcell = W
+			user << "<span class='notice'>You attach a cell to [src].</span>"
+			update_icon()
+		else
+			user << "<span class='notice'>[src] already have a cell.</span>"
+
+	else if(istype(W, /obj/item/weapon/screwdriver))
+		if(prodcell)
+			prodcell.updateicon()
+			prodcell.loc = get_turf(src.loc)
+			prodcell = null
+			charges = 0
+			status = 0
+			user << "<span class='notice'>You deatach the cell away from [src].</span>"
+			update_icon()
+			return
+	return

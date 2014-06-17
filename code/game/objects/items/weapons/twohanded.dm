@@ -202,6 +202,17 @@
 		del(I)
 		del(src)
 
+	else if(istype(I, /obj/item/weapon/wirecutters))
+		var/obj/item/weapon/melee/baton/cattleprod/P = new /obj/item/weapon/melee/baton/cattleprod
+
+		user.before_take_item(I)
+		user.before_take_item(src)
+
+		user.put_in_hands(P)
+		user << "<span class='notice'>You fasten the wirecutters to the top of the rod with the cable, prongs outward.</span>"
+		del(I)
+		del(src)
+
 //spears
 /obj/item/weapon/twohanded/spear
 	icon_state = "spearglass0"

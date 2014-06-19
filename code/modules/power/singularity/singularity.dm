@@ -6,8 +6,8 @@ var/global/list/uneatable = list(
 	)
 
 /obj/machinery/singularity/
-	name = "Gravitational Singularity"
-	desc = "A Gravitational Singularity."
+	name = "Steam"
+	desc = "It steals your money."
 	icon = 'icons/obj/singularity.dmi'
 	icon_state = "singularity_s1"
 	anchored = 1
@@ -150,6 +150,8 @@ var/global/list/uneatable = list(
 			dissipate_strength = 1
 		if(3)//1 to 3 does not check for the turfs if you put the gens right next to a 1x1 then its going to eat them
 			current_size = 3
+			name = "Gaben"
+			desc = "He wants your money."
 			icon = 'icons/effects/96x96.dmi'
 			icon_state = "singularity_s3"
 			pixel_x = -32
@@ -164,6 +166,8 @@ var/global/list/uneatable = list(
 				current_size = 5
 				icon = 'icons/effects/160x160.dmi'
 				icon_state = "singularity_s5"
+				name = "Gaben"
+				desc = "Watch your wallet."
 				pixel_x = -64
 				pixel_y = -64
 				grav_pull = 8
@@ -174,6 +178,8 @@ var/global/list/uneatable = list(
 		if(7)
 			if((check_turfs_in(1,3))&&(check_turfs_in(2,3))&&(check_turfs_in(4,3))&&(check_turfs_in(8,3)))
 				current_size = 7
+				name = "Gaben"
+				desc = "OMG! DISCOUNTS!."
 				icon = 'icons/effects/224x224.dmi'
 				icon_state = "singularity_s7"
 				pixel_x = -96
@@ -185,6 +191,8 @@ var/global/list/uneatable = list(
 				dissipate_strength = 10
 		if(9)//this one also lacks a check for gens because it eats everything
 			current_size = 9
+			name = "Half-Life 3"
+			desc = "CONFIRMED!."
 			icon = 'icons/effects/288x288.dmi'
 			icon_state = "singularity_s9"
 			pixel_x = -128

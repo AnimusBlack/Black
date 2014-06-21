@@ -211,7 +211,7 @@
 				O.show_message("[usr] checks [src]'s pulse.", 1)
 		spawn(15)
 			if(distance <= 1 && usr.stat != 1)
-				if(pulse == PULSE_NONE)
+				if(pulse < 10)
 					usr << "<span class='deadsay'>[t_He] has no pulse[src.client ? "" : " and [t_his] soul has departed"]...</span>"
 				else
 					usr << "<span class='deadsay'>[t_He] has a pulse!</span>"

@@ -4,6 +4,8 @@
 
 /mob/living/carbon/human/var/list/internal_organs = list()
 
+
+
 /datum/organ/internal
 	// amount of damage to the organ
 	var/damage = 0
@@ -41,6 +43,109 @@
 /datum/organ/internal/heart
 	name = "heart"
 	parent_organ = "chest"
+	var/heartrate = 80			//Heartrate
+								//Value depends on a multitude of factors.
+								//The value itself has an effect on the blood pressure.
+								//If this is lower than 60,
+								//If this is 0, SEVERE oxyloss and brainloss happen.
+
+	var/arrhythmia = 0		//Arrhythmia
+							//Can be caused by genetic traits and outside influences.
+							//Every sort of arrhythmia is different
+							//1 - Asystole: Inevitable death.
+							//2 - Pulseless electrical activity: Results in heavy damage, asystole usually follows if not treated.
+							//3 - Ventricular Fibrillation: Results in heavy damage, asystole usually follows if not treated.
+
+
+	process()
+		if (owner.stat == DEAD)
+			heartrate = 0
+			return heartrate
+
+		if (owner.bodytemperature <= 170)
+			heartrate--
+			return heartrate
+
+
+		if (damage > 50)
+			owner.oxyloss += 300
+			owner.death()
+			heartrate = 0
+			return heartrate
+
+		if (heartrate < 5)
+			if (!arrhythmia)
+				arrhythmia = 1
+		if (heartrate > 160)
+			damage++
+			if (prob(damage) || heartrate > 200)
+				arrhythmia = 1
+
+
+		if(owner.status_flags & FAKEDEATH)
+			heartrate = 0   //pretend that we're dead. unlike actual death, can be inflienced by meds
+
+		for(var/datum/reagent/R in owner:reagents.reagent_list) //This will be better, i guess. - Rel
+			if(R.cardic)
+				heartrate = max(heartrate + R.cardic,0)
+			else
+				//slowly returns to normal
+				if (heartrate > 0)
+					if (heartrate < 80)
+						heartrate++
+					else if (heartrate > 80)
+						heartrate--
+						//sleep(20)
+				else
+					if (arrhythmia == 0)
+						heartrate++
+
+		handle_arrhythmia()
+
+
+	proc/handle_arrhythmia()                          //Why not? - Rel
+		var/datum/reagents/blood/B = owner:vessel
+		//Epinephrine, ha ha ha!
+		switch(arrhythmia)
+			if(1) //Asystole, or flatline
+				//PERSON DIES
+				heartrate = 0
+				owner.losebreath++
+				owner.paralysis += 5
+				B.systolic = 0
+				if(prob(50) && !owner.reagents.has_reagent("polyadrenalobin"))
+					owner.oxyloss += 300
+					owner.death()
+					return heartrate
+				arrhythmia = 0
+				//DEAD DEAD DEAD DEAD DEEEED!
+			if(2) //Pulseless Electrical Activity
+				//PERSON IS KIND OF SCREWED
+				heartrate = 0
+				owner.losebreath++
+				owner.paralysis += 5
+				B.systolic = 0
+				if(prob(10))
+					arrhythmia = 3
+				if(prob(10))
+					arrhythmia = 1
+			if(3) //Ventricular Fibrillation
+				//Still saveable
+				heartrate = 0
+				owner.losebreath++
+				owner.paralysis += 5
+				if(prob(2)) //Flatline the fucker
+					arrhythmia = 1
+				if(prob(25)) //PEA
+					arrhythmia = 2
+				if(B.systolic > 100)
+					B.systolic = 50
+				if(B.systolic > 10)
+					B.systolic -= 10
+				if(prob(20))
+					arrhythmia = 0
+
+		return heartrate
 
 
 /datum/organ/internal/lungs

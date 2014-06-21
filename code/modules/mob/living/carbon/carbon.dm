@@ -472,28 +472,28 @@
 	onclose(user, "mob[name]")
 	return
 
-//generates realistic-ish pulse output based on preset levels
 /mob/living/carbon/proc/get_pulse(var/method)	//method 0 is for hands, 1 is for machines, more accurate
-	var/temp = 0								//see setup.dm:694
 	switch(src.pulse)
-		if(PULSE_NONE)
-			return "0"
-		if(PULSE_SLOW)
-			temp = rand(40, 60)
-			return num2text(method ? temp : temp + rand(-10, 10))
-		if(PULSE_NORM)
-			temp = rand(60, 90)
-			return num2text(method ? temp : temp + rand(-10, 10))
-		if(PULSE_FAST)
-			temp = rand(90, 120)
-			return num2text(method ? temp : temp + rand(-10, 10))
-		if(PULSE_2FAST)
-			temp = rand(120, 160)
-			return num2text(method ? temp : temp + rand(-10, 10))
-		if(PULSE_THREADY)
-			return method ? ">250" : "extremely weak and fast, patient's artery feels like a thread"
-//			output for machines^	^^^^^^^output for people^^^^^^^^^
+		if(-INFINITY to 0)
+			return 0
+		if(1 to 10)
+			return method ? src.pulse : 0 //Too weak. - Rel
+		if(11 to 50)
+			return method ? src.pulse : src.pulse + rand(-5, 5)
+		if(51 to 100)
+			return method ? src.pulse : src.pulse + rand(-10, 10)
+		if(101 to INFINITY)
+			return method ? src.pulse : src.pulse + rand(-15, 15)
 
+
+
+/mob/living/carbon/proc/get_bloodpressure()
+	if (ishuman(src))
+		var/datum/reagents/blood/B = src:vessel
+		var/bloodpressure = B.systolic
+		return bloodpressure
+	else
+		return "No bloodpressure detected"
 
 //Brain slug proc for voluntary removal of control.
 /mob/living/carbon/proc/release_control()

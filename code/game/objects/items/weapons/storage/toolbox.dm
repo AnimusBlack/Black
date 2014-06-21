@@ -43,6 +43,10 @@
 		new /obj/item/device/analyzer(src)
 		new /obj/item/weapon/wirecutters(src)
 
+/obj/item/weapon/storage/toolbox/mechanical/fluff/fire
+	icon_state = "fire"
+	item_state = null
+
 /obj/item/weapon/storage/toolbox/electrical
 	name = "electrical toolbox"
 	icon_state = "yellow"

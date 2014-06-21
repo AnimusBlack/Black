@@ -1426,7 +1426,7 @@ datum
 		metroidjam
 			name = "Metroid Jam"
 			id = "m_jam"
-			result = "metroid"
+			result = "metroidjelly"
 			required_reagents = list("water" = 1)
 			result_amount = 1
 			required_container = /obj/item/metroid_core/t2

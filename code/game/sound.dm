@@ -18,6 +18,14 @@
 		if ("chimpers") soundin = pick('sound/voice/monkey1.ogg')
 		if ("laugh") soundin = pick('sound/voice/laugh1.ogg', 'sound/voice/laugh2.ogg', 'sound/voice/laugh3.ogg')
 		if ("buttstep") soundin = pick('fart.ogg','poo2.ogg','fart1.ogg')
+		if ("erikafootsteps") soundin = pick('sound/effects/footsteps/tile1.wav','sound/effects/footsteps/tile2.wav','sound/effects/footsteps/tile3.wav','sound/effects/footsteps/tile4.wav')
+		if ("concretefootsteps") soundin = pick('concrete_step1.ogg','concrete_step2.ogg','concrete_step3.ogg','concrete_step4.ogg','concrete_step5.ogg','concrete_step6.ogg','concrete_step7.ogg','concrete_step8.ogg')
+		if ("grassfootsteps") soundin = pick('sound/effects/footsteps/grass/grass1.wav','sound/effects/footsteps/grass/grass2.wav','sound/effects/footsteps/grass/grass3.wav','sound/effects/footsteps/grass/grass4.wav')
+		if ("dirtfootsteps") soundin = pick('sound/effects/footsteps/dirt/dirt1.wav','sound/effects/footsteps/dirt/dirt2.wav','sound/effects/footsteps/dirt/dirt3.wav','sound/effects/footsteps/dirt/dirt4.wav')
+		if ("waterfootsteps") soundin = pick('slosh1.wav','slosh2.wav','slosh3.wav','slosh4.wav')
+		if ("sandfootsteps") soundin = pick('sand_step1.ogg','sand_step2.ogg','sand_step3.ogg','sand_step4.ogg','sand_step5.ogg','sand_step6.ogg','sand_step7.ogg','sand_step8.ogg')
+		if ("woodfootsteps") soundin = pick('wood_step1.ogg','wood_step2.ogg','wood_step3.ogg','wood_step4.ogg','wood_step5.ogg','wood_step6.ogg','wood_step7.ogg','wood_step8.ogg')
+		if ("carpetfootsteps") soundin = pick('carpet_step1.ogg','carpet_step2.ogg','carpet_step3.ogg','carpet_step4.ogg','carpet_step5.ogg','carpet_step6.ogg','carpet_step7.ogg','carpet_step8.ogg')
 
 
 	var/sound/S = sound(soundin)
@@ -88,6 +96,7 @@
 		if ("dog3") soundin = pick('sound/voice/DOG3.ogg')
 		if ("chimpers") soundin = pick('sound/voice/monkey1.ogg')
 		if ("laugh") soundin = pick('sound/voice/laugh1.ogg', 'sound/voice/laugh2.ogg', 'sound/voice/laugh3.ogg')
+		if ("erikafootsteps") soundin = pick('footsteps.ogg','footsteps2.ogg')
 
 	var/sound/S = sound(soundin)
 	S.wait = 0 //No queue

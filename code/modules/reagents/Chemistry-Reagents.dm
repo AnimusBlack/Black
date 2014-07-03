@@ -21,6 +21,7 @@ datum
 		var/nutriment_factor = 0
 		var/custom_metabolism = REAGENTS_METABOLISM
 		var/mildly_toxic = 0
+		var/cardic = 0 //How it's affect the heartrate. By default it doesn't.
 		//var/list/viruses = list()
 		var/reagent_color = "#000000" // rgb: 0, 0, 0 (does not support alpha channels - yet!)
 
@@ -373,6 +374,7 @@ datum
 			reagent_state = LIQUID
 			reagent_color = "#CF3600" // rgb: 207, 54, 0
 			custom_metabolism = 0.4
+			cardic = -0.5
 
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
@@ -454,6 +456,7 @@ datum
 			id = "stoxin"
 			description = "An effective hypnotic used to treat insomnia."
 			reagent_state = LIQUID
+			cardic = -0.2
 			reagent_color = "#E895CC" // rgb: 232, 149, 204
 
 			on_mob_life(var/mob/living/M as mob)
@@ -463,6 +466,7 @@ datum
 					if(1 to 5)
 						M.eye_blurry = max(M.eye_blurry, 5)
 					if(5 to 10)
+						M.eye_blurry = max(M.eye_blurry, 5)
 						M.drowsyness  = max(M.drowsyness, 10)
 					if(10 to INFINITY)
 						M.Paralyse(15)
@@ -476,6 +480,7 @@ datum
 			id = "stoxin2"
 			description = "Put people to sleep, and heals them."
 			reagent_state = LIQUID
+			cardic = -0.1
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -509,6 +514,7 @@ datum
 			id = "inaprovaline"
 			description = "Inaprovaline is a synaptic stimulant and cardiostimulant. Commonly used to stabilize patients."
 			reagent_state = LIQUID
+			cardic = 1.5
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -523,6 +529,7 @@ datum
 			id = "space_drugs"
 			description = "An illegal chemical compound used as drug."
 			reagent_state = LIQUID
+			cardic = 1.5
 			reagent_color = "#60A584" // rgb: 96, 165, 132
 
 			on_mob_life(var/mob/living/M as mob)
@@ -756,6 +763,7 @@ datum
 			id = "sugar"
 			description = "The organic compound commonly known as table sugar and sometimes called saccharose. This white, odorless, crystalline powder has a pleasing, sweet taste."
 			reagent_state = SOLID
+			cardic = 1.1
 			reagent_color = "#FFFFFF" // rgb: 255, 255, 255
 
 			on_mob_life(var/mob/living/M as mob)
@@ -773,7 +781,7 @@ datum
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
 				M.adjustToxLoss(1*REM)
-				M.take_organ_damage(0, 1*REM)
+				M.take_organ_damage(0,5*REM)
 				..()
 				return
 			reaction_mob(var/mob/living/M, var/method=TOUCH, var/volume)
@@ -1025,6 +1033,7 @@ datum
 			id = "tramadol"
 			description = "A simple, yet effective painkiller."
 			reagent_state = LIQUID
+			cardic = -0.1
 			reagent_color = "#C8A5DC"
 
 		oxycodone
@@ -1032,6 +1041,7 @@ datum
 			id = "oxycodone"
 			description = "An effective and very addictive painkiller."
 			reagent_state = LIQUID
+			cardic = -0.5
 			reagent_color = "#C805DC"
 
 		virus_food
@@ -1331,6 +1341,7 @@ datum
 			id = "lexorin"
 			description = "Lexorin temporarily stops respiration. Causes tissue damage."
 			reagent_state = LIQUID
+			cardic = -0.5
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1429,6 +1440,7 @@ datum
 			id = "tricordrazine"
 			description = "Tricordrazine is a highly potent stimulant, originally derived from cordrazine. Can be used to treat a wide range of injuries."
 			reagent_state = LIQUID
+			cardic = 0.5
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1454,6 +1466,13 @@ datum
 
 			on_mob_life(var/mob/living/carbon/M as mob)
 				if(!M) M = holder.my_atom ///This can even heal dead people.
+				if(ishuman(M))
+					var/datum/organ/internal/heart/H = M:internal_organs["heart"]
+					H.heartrate = 80
+					H.arrhythmia = 0
+					//var/datum/reagents/blood/B = M:vessel
+					//B.volume = 560
+					//B.systolic = 120  //I'll finish it somewhen later. - Rel
 				M.setCloneLoss(0)
 				M.setOxyLoss(0)
 				M.radiation = 0
@@ -1514,6 +1533,7 @@ datum
 			id = "synaptizine"
 			description = "Synaptizine is used to treat various diseases."
 			reagent_state = LIQUID
+			cardic = 0.5
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1533,6 +1553,7 @@ datum
 			id = "impedrezene"
 			description = "Impedrezene is a narcotic that impedes one's ability by slowing down the higher brain cell functions."
 			reagent_state = LIQUID
+			cardic = -0.3
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1589,6 +1610,7 @@ datum
 			id = "alkysine"
 			description = "Alkysine is a drug used to lessen the damage to neurological tissue after a catastrophic injury. Can heal brain tissue."
 			reagent_state = LIQUID
+			cardic = -0.2
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1660,6 +1682,7 @@ datum
 			id = "hyperzine"
 			description = "Hyperzine is a highly effective, long lasting, muscle stimulant."
 			reagent_state = LIQUID
+			cardic = 1
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1678,6 +1701,7 @@ datum
 			id = "cryoxadone"
 			description = "A chemical mixture with almost magical healing powers. Its main limitation is that the targets body temperature must be under 170K for it to metabolise correctly."
 			reagent_state = LIQUID
+			cardic = -0.5
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1697,6 +1721,7 @@ datum
 			id = "clonexadone"
 			description = "A liquid compound similar to that used in the cloning process. Can be used to 'finish' clones that get ejected early when used in conjunction with a cryo tube."
 			reagent_state = LIQUID
+			cardic = -0.5
 			reagent_color = "#C8A5DC" // rgb: 200, 165, 220
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1765,6 +1790,7 @@ datum
 			id = "mindbreaker"
 			description = "A powerful hallucinogen. Not a thing to be messed with."
 			reagent_state = LIQUID
+			cardic = -0.1
 			reagent_color = "#B31008" // rgb: 139, 166, 233
 			custom_metabolism = 0.1
 
@@ -1832,6 +1858,7 @@ datum
 			id = "nicotine"
 			description = "A highly addictive stimulant extracted from the tobacco plant."
 			reagent_state = LIQUID
+			cardic = 0.5
 			reagent_color = "#181818" // rgb: 24, 24, 24
 /*
 		ethanol
@@ -1909,6 +1936,7 @@ datum
 			id = "chloralhydrate"
 			description = "A powerful sedative."
 			reagent_state = SOLID
+			cardic = -1
 			reagent_color = "#000067" // rgb: 0, 0, 103
 
 			on_mob_life(var/mob/living/M as mob)
@@ -1933,6 +1961,7 @@ datum
 			id = "beer2"
 			description = "An alcoholic beverage made from malted grains, hops, yeast, and water."
 			reagent_state = LIQUID
+			cardic = -1
 			reagent_color = "#664300" // rgb: 102, 67, 0
 
 			on_mob_life(var/mob/living/M as mob)
@@ -2244,13 +2273,13 @@ datum
 					return
 				..()
 
-/*	//removed because of meta bullshit. this is why we can't have nice things.
+	//removed because of meta bullshit. this is why we can't have nice things.
 		syndicream
 			name = "Cream filling"
 			id = "syndicream"
 			description = "Delicious cream filling of a mysterious origin. Tastes criminally good."
 			nutriment_factor = 1 * REAGENTS_METABOLISM
-			color = "#AB7878" // rgb: 171, 120, 120
+			reagent_color = "#AB7878" // rgb: 171, 120, 120
 
 			on_mob_life(var/mob/living/M as mob)
 				M.nutrition += nutriment_factor
@@ -2262,7 +2291,7 @@ datum
 						..()
 						return
 				..()
-*/
+
 		cornoil
 			name = "Corn Oil"
 			id = "cornoil"
@@ -2562,6 +2591,7 @@ datum
 				name = "Coffee"
 				id = "coffee"
 				description = "Coffee is a brewed drink prepared from roasted seeds, commonly called coffee beans, of the coffee plant."
+				cardic = 0.5
 				reagent_color = "#482000" // rgb: 72, 32, 0
 				adj_dizzy = -5
 				adj_drowsy = -3
@@ -2834,6 +2864,7 @@ datum
 			description = "A well-known alcohol with a variety of applications."
 			reagent_state = LIQUID
 			nutriment_factor = 0 //So alcohol can fill you up! If they want to.
+			cardic = 0.5
 			reagent_color = "#404030" // rgb: 64, 64, 48
 			var/dizzy_adj = 3
 			var/slurr_adj = 3
@@ -3343,7 +3374,7 @@ datum
 			sbiten
 				name = "Sbiten"
 				id = "sbiten"
-				description = "A spicy Vodka! Might be a little hot for the little guys!"
+				description = "Keep away from other alcohol."
 				reagent_state = LIQUID
 				reagent_color = "#664300" // rgb: 102, 67, 0
 

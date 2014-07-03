@@ -14,6 +14,7 @@
 	levelupdate()
 
 /turf/simulated/Entered(atom/A, atom/OL)
+	var/footstepsound
 	if(movement_disabled && usr.ckey != movement_disabled_exception)
 		usr << "\red Movement is admin-disabled." //This is to identify lag problems
 		return
@@ -23,25 +24,54 @@
 		if(M.lying)	return
 		if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = M
+
+			//clown shoes
 			if(istype(H.shoes, /obj/item/clothing/shoes/clown_shoes))
-				var/obj/item/clothing/shoes/clown_shoes/O = H.shoes
 				if(H.m_intent == "run")
-					if(O.footstep >= 2)
-						O.footstep = 0
+					if(M.footstep >= 2)
+						M.footstep = 0
 						playsound(src, "clownstep", 50, 1) // this will get annoying very fast.
 					else
-						O.footstep++
+						M.footstep++
 				else
 					playsound(src, "clownstep", 20, 1)
 
+			//shoes
+			if(istype(src, /turf/simulated/floor/grass || /turf/simulated/floor/holofloor/grass))
+				footstepsound = "grassfootsteps"
+			else if(istype(src, /turf/simulated/floor/beach/sand ||/turf/simulated/floor/plating/airless/asteroid))
+				footstepsound = "sandfootsteps"
+			else if(istype(src, /turf/simulated/floor/beach/water))
+				footstepsound = "waterfootsteps"
+//			else if(istype(src, /turf/simulated/floor/spacedome/concrete))
+//				footstepsound = "concretefootsteps"
+			else if(istype(src, /turf/simulated/floor/wood))
+				footstepsound = "woodfootsteps"
+			else if(istype(src, /turf/simulated/floor/carpet))
+				footstepsound = "carpetfootsteps"
+			else
+				footstepsound = "erikafootsteps"
+//				if(icon == "natureicons.dmi")
+//					footstepsound = "concretefootsteps"
+
+			if(istype(H.shoes, /obj/item/clothing/shoes))
+				if(M.m_intent == "run")
+					if(M.footstep >= 2)
+						M.footstep = 0
+						playsound(src, footstepsound, 100, 1) // this will get annoying very fast.
+					else
+						M.footstep++
+				else
+					playsound(src, footstepsound, 40, 1)
+
+			//butt
 			if(istype(H.head, /obj/item/clothing/head/butt))
-				var/obj/item/clothing/head/butt/O = H.head
 				if(H.m_intent == "run")
-					if(O.footstep >= 2)
-						O.footstep = 0
+					if(M.footstep >= 2)
+						M.footstep = 0
 						playsound(src, "buttstep", 50, 1) // this will get annoying very fast.
 					else
-						O.footstep++
+						M.footstep++
 
 				else
 					playsound(src, "buttstep", 30, 1)

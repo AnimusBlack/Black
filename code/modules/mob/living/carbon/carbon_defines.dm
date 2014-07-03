@@ -19,4 +19,4 @@
 	//Active emote/pose
 	var/pose = null
 
-	var/pulse = PULSE_NORM	//current pulse level
+	var/pulse = 80	//current pulse level

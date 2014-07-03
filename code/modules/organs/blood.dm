@@ -7,14 +7,56 @@ var/const/BLOOD_VOLUME_OKAY = 336
 var/const/BLOOD_VOLUME_BAD = 224
 var/const/BLOOD_VOLUME_SURVIVE = 122
 
-/mob/living/carbon/human/var/datum/reagents/vessel	//Container for blood and BLOOD ONLY. Do not transfer other chems here.
-/mob/living/carbon/human/var/var/pale = 0			//Should affect how mob sprite is drawn, but currently doesn't.
+/mob/living/carbon/human/var/datum/reagents/blood/vessel	//Container for blood and BLOOD ONLY. Do not transfer other chems here.
+/mob/living/carbon/human/var/pale = 0			//Should affect how mob sprite is drawn, but currently doesn't.
+
+/datum/reagents/blood
+/*	var/bleeding = 0
+	var/bloodloss = 0
+	var/bloodcalculation1 = 0
+	var/countdown = 0
+	var/totalbloodloss = 0
+	//used in deciding how fast people bleed 5 is normal, an increase
+	//increases the thickness making people bleed slower, above 8 starts
+	//doing oxy and brute damage slowly
+	//and below 5 increases the amount of bloodloss quite fast
+
+	var/bloodthickness = 5 //Time of thin blood
+
+	//Bloodpressure
+	//Diastolic doesn't have any effect but is just there for IMMERSION.
+	//Hypertension can result in a heart attack
+*/
+	var/systolic = 100
+//	var/circ_pressure_mod = 0
+
+	//Thrombosis
+	//When you get thrombosis, it rolls for which type.
+	//1 - Peripheral(leg) - 20%
+	//2 - Peripheral(arm) - 20%
+	//3 - Pulmonary Embolism - 25%
+	//4 - Cerebrovascular Accident(Stroke) - 20%
+	//5 - Myocardial Infarction - 15%
+	//Severity can range from 0 to 4
+	//0 is no thrombus, 4 is full blockage.
+
+	var/thrombosis = 0
+	var/thrombosis_severity = 0
+
+	//Used in deciding how fast and if bleeding heals.
+	//Higher than 7 brings a risk of thrombosis.
+
+//	var/blood_clot = 5
+
+	//Temporarily stops all bleeding, DO NOT LEAVE THIS SET TO 1
+
+//	var/bloodstopper = 0
 
 //Initializes blood vessels
 /mob/living/carbon/human/proc/make_blood()
 	if (vessel)
 		return
-	vessel = new/datum/reagents(600)
+	vessel = new/datum/reagents/blood(1000)
 	vessel.my_atom = src
 	vessel.add_reagent("blood",560)
 	spawn(1)
@@ -29,6 +71,8 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 
 // Takes care blood loss and regeneration
 /mob/living/carbon/human/proc/handle_blood()
+	vessel.handle_bloodpressure()
+
 	if(stat != DEAD && bodytemperature >= 170)	//Dead or cryosleep people do not pump the blood.
 
 		var/blood_volume = round(vessel.get_reagent_amount("blood"))
@@ -56,15 +100,17 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		var/datum/organ/internal/heart/heart = internal_organs["heart"]
 		switch(heart.damage)
 			if(5 to 10)
-				blood_volume *= 0.8
+				blood_volume -= 8
 			if(11 to 20)
-				blood_volume *= 0.5
+				blood_volume -= 5
 			if(21 to INFINITY)
-				blood_volume *= 0.3
+				blood_volume -= 3
 
 		//Effects of bloodloss
 		switch(blood_volume)
-			if(BLOOD_VOLUME_SAFE to 10000)
+			if(700 to 1.#INF)
+				gib()
+			if(BLOOD_VOLUME_SAFE to 700)
 				if(pale)
 					pale = 0
 					update_body()
@@ -92,16 +138,21 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 					var/word = pick("dizzy","woosey","faint")
 					src << "\red You feel extremely [word]"
 			if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
+				eye_blurry += 6
 				oxyloss += 8
+				if(heart.arrhythmia == 0)
+					heart.arrhythmia = 3 //Ventricular Fibrillation
 				if(prob(15))
 					var/word = pick("dizzy","woosey","faint")
 					src << "\red You feel extremely [word]"
-			if(0 to BLOOD_VOLUME_SURVIVE)
+			if(-1.#INF to BLOOD_VOLUME_SURVIVE)
 				// There currently is a strange bug here. If the mob is not below -100 health
 				// when death() is called, apparently they will be just fine, and this way it'll
 				// spam deathgasp. Adjusting toxloss ensures the mob will stay dead.
-				toxloss += 300 // just to be safe!
+				oxyloss += 300 // just to be safe!
 				death()
+
+		vessel.handle_thrombosis()
 
 		// Without enough blood you slowly go hungry.
 		if(blood_volume < BLOOD_VOLUME_SAFE)
@@ -110,22 +161,37 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 			else if(nutrition >= 200)
 				nutrition -= 1
 
+
+		if (!blood_volume)
+			return
+			//No blood - no bleeding. - Rel
+
 		//Bleeding out
 		var/blood_max = 0
 		for(var/datum/organ/external/temp in organs)
 			if(!(temp.status & ORGAN_BLEEDING) || temp.status & ORGAN_ROBOT)
 				continue
-			for(var/datum/wound/W in temp.wounds) if(W.bleeding())
-				blood_max += W.damage / 4
+			for(var/datum/wound/W in temp.wounds)
+				if(W.bleeding())
+					blood_max += W.damage / 4
+				if(W.internal && !W.is_treated())
+					vessel.remove_reagent("blood",0.07 * W.damage)
+
 			if(temp.status & ORGAN_DESTROYED && !(temp.status & ORGAN_GAUZED) && !temp.amputated)
 				blood_max += 20 //Yer missing a fucking limb.
 			if (temp.open)
 				blood_max += 2  //Yer stomach is cut open
+
+
 		drip(blood_max)
 
 //Makes a blood drop, leaking certain amount of blood from the mob
 /mob/living/carbon/human/proc/drip(var/amt as num)
 	if(!amt)
+		return
+
+	var/blood_volume = round(vessel.get_reagent_amount("blood"))
+	if (!blood_volume)
 		return
 
 	var/amm = 0.1 * amt
@@ -245,3 +311,217 @@ proc/blood_incompatible(donor,receiver)
 			if(donor_antigen != "O") return 1
 		//AB is a universal receiver.
 	return 0
+
+/********************************************************
+			BLOOD PRESSURE
+***********************************************************/
+
+/datum/reagents/blood/proc/handle_bloodpressure()
+	calculate_bloodpressure()
+
+	switch(systolic)
+		if(-INFINITY to 4) //Lol no heartrate I guess hur hur
+			my_atom:oxyloss += 15
+			//bloodstopper = 1
+		if(5 to 49) //Severe Hypotension
+			if(prob(40))
+				my_atom:paralysis += 10
+			my_atom:oxyloss += 2
+			//bloodstopper = 1
+		if(50 to 79) //Light Hypotension
+			//?
+		if(80 to 139) //Normal
+			//?
+		if(140 to 179) //Hypertension
+			if(prob(20))
+				src << "\red You have a seizure!"
+				for(var/mob/O in viewers(src, null))
+					if(O == src)
+						continue
+					O.show_message(text("\red <B>[src] starts having a seizure!"), 1)
+				//my_atom:paralysis = max(10, paralysis)
+				my_atom:make_jittery(1000)
+			if(!thrombosis)
+				if(prob(70))
+					give_thrombosis()
+		if(180 to INFINITY) //Death
+			my_atom:oxyloss += 300
+			my_atom:death()
+
+
+
+
+/datum/reagents/blood/proc/calculate_bloodpressure()
+	var/datum/organ/internal/heart/heart = my_atom:internal_organs["heart"]
+	var/blood_volume = round(get_reagent_amount("blood"))
+
+	if (!heart.heartrate)
+		systolic = 0
+		return
+	systolic = max((blood_volume/560) * ((heart.heartrate - 20) * 2),0) //Base
+/*	systolic += circ_pressure_mod
+	if(circ_pressure_mod > 0)
+		circ_pressure_mod--
+	else if(circ_pressure_mod < 0)
+		circ_pressure_mod++
+	systolic += (bloodthickness - 5)*10
+*/
+
+/datum/reagents/blood/proc/handle_thrombosis()
+	var/datum/organ/internal/heart/heart = my_atom:internal_organs["heart"]
+	var/S = thrombosis_severity
+
+	if(S==0)
+		thrombosis = 0
+	switch(thrombosis)
+		if(0)
+			thrombosis_severity = 0
+		if(1)
+			switch(S)
+				if(1 to 2)
+					if(prob(70))
+						thrombosis_severity+=1
+					if(prob(5))
+						my_atom:oxyloss += 1
+				if(2 to 3)
+					if(prob(100))
+						thrombosis = 0
+						give_thrombosis()
+					my_atom:oxyloss += 1
+		if(2)
+			switch(S)
+				if(1 to 2)
+					if(prob(70))
+						thrombosis_severity+=1
+					if(prob(5))
+						my_atom:oxyloss += 1
+				if(2 to 3)
+					if(prob(100))
+						thrombosis = 0
+						give_thrombosis()
+					my_atom:oxyloss += 1
+		if(3) //Pulmonary Embolism
+			switch(S)
+				if(1 to 2)
+					my_atom:drowsyness=5
+					if(prob(10))
+						thrombosis_severity+=1
+					if(prob(5))
+						my_atom:oxyloss += 2
+				if(3)
+					my_atom:drowsyness=10
+					if(prob(20))
+						thrombosis_severity+=1
+					my_atom:brainloss += 2
+					my_atom:oxyloss += 1
+					if(prob(5))
+						my_atom:losebreath+=1
+				if(4)
+					//Let the arrhythmia do the work.
+					heart.arrhythmia = 2 //Pulseless electrical activity
+					//Yes, the person most likely dies, unless he was in the medbay.
+		if(4) //CVA(Stroke)
+			switch(S)
+				if(1 to 2)
+					my_atom:drowsyness=10
+					if(prob(10))
+						thrombosis_severity+=1
+					if(prob(5))
+						my_atom:brainloss += 2
+						my_atom:oxyloss += 1
+					if(S==2)
+						my_atom:eye_blurry += 1
+				if(3)
+					my_atom:drowsyness=20
+					if(prob(20))
+						thrombosis_severity+=1
+					my_atom:brainloss += 2
+					my_atom:oxyloss += 1
+					my_atom:paralysis++
+				if(4)
+					my_atom:drowsyness=30
+					my_atom:brainloss += 15
+					my_atom:oxyloss += 2
+					my_atom:eye_blind += 1
+					my_atom:paralysis++
+					my_atom:losebreath += 1
+					if(prob(15))
+						heart.arrhythmia = 1 //DIE
+		if(5) //Myocardial Infarction
+			switch(S)
+				if(1 to 2)
+					my_atom:eye_blurry += 1
+					my_atom:drowsyness+=5
+					if(prob(10))
+						thrombosis_severity+=1
+					if(prob(5))
+						my_atom:brainloss += 5
+						my_atom:oxyloss += 5
+						if(heart.heartrate > 40)
+							heart.heartrate -= 5
+				if(3)
+					if(prob(20))
+						thrombosis_severity+=1
+					my_atom:brainloss += 5
+					my_atom:oxyloss += 2
+					my_atom:paralysis++
+					my_atom:eye_blind += 1
+					my_atom:losebreath += 1
+					my_atom:paralysis += 1
+				if(4)
+					//Let the arrhythmia do the work.
+					heart.arrhythmia = 2 //Pulseless electrical activity
+					//Yes, the person most likely dies, unless he was in the medbay.
+
+
+/datum/reagents/blood/proc/give_thrombosis()
+	//Already has thrombosis? Increase severity
+	if(thrombosis > 0)
+		thrombosis_severity += 1
+	else
+		thrombosis_severity = prob(2)?1:2
+	//Roll for type
+	if(!thrombosis)
+		if(prob(30))
+		{
+			thrombosis = 1 //Leg
+			switch(thrombosis_severity)
+				if(1 to 2)
+					src << "\red Your legs feel tingly."
+				if(3 to 4)
+					src << "\red You legs feel numb."
+		}
+		else if(prob(30))
+		{
+			thrombosis = 2 //Arm
+			switch(thrombosis_severity)
+				if(1 to 2)
+					src << "\red Your arms feel tingly."
+				if(3 to 4)
+					src << "\red You arms feel numb."
+		}
+		else if(prob(25))
+		{
+			thrombosis = 3 //Pulmonary Embolism
+			switch(thrombosis_severity)
+				if(1)
+					src << "\red You have difficulty breathing"
+				if(2)
+					src << "\red You can barely breathe"
+		}
+		else if(prob(10))
+		{
+			thrombosis = 4 //CVA(Stroke)
+			switch(thrombosis_severity)
+				if(1 to 2)
+					src << "\red You feel slow and clumsy."
+		}
+		else
+		{
+			thrombosis = 5 //Myocardial Infarction
+			switch(thrombosis_severity)
+				if(1 to 2)
+					src << "\red You feel a sharp pain in your chest"
+		}
+
+
